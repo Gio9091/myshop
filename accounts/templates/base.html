@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyShop</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #45a049;
+        }
+
+        nav form button {
+            background-color: #E74C3C;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav form button:hover {
+            background-color: #c0392b;
+        }
+
+        nav a.active {
+            background-color: #45a049;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .content h1 {
+            font-size: 28px;
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div>
+            <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">მთავარი</a>
+            <a href="{% url 'cart:cart_detail' %}" class="{% if request.path == '/cart/' %}active{% endif %}">კალათა</a>
+            <a href="{% url 'orders:order_history' %}">შეკვეთების ისტორია</a>
+
+        </div>
+
+        <div>
+            {% if user.is_authenticated %}
+                <span>გამარჯობა, {{ user.username }} |</span>
+                <form action="{% url 'accounts:logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+               <button type="submit">გასვლა</button>
+           </form>
+
+            {% else %}
+                <a href="{% url 'accounts:login' %}">შესვლა</a>|
+                <a href="{% url 'accounts:register' %}">რეგისტრაცია</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="footer">
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!-- orders/templates/orders/checkout.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>შეკვეთის დასრულება</h1>
+
+  <!-- თუ კალათაში რამე პროდუქტი არ არის -->
+  {% if not cart_items %}
+    <p>თქვენი კალათა ცარიელია! დამატება შეგიძლიათ კალათაში პროდუქტის დამატებით.</p>
+    <a href="{% url 'cart:cart_detail' %}">კალათის ნახვა</a>
+  {% else %}
+    <h2>კალათაში პროდუქტები:</h2>
+    <ul>
+      {% for item in cart_items %}
+        <li>
+          {{ item.product.name }} - {{ item.quantity }} x {{ item.product.price }} ლარი
+        </li>
+      {% endfor %}
+    </ul>
+    <h3>ჯამი: {{ total_price }} ლარი</h3>
+
+    <!-- შეკვეთის დასრულების ფორმა -->
+    <form action="{% url 'orders:checkout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit">შეკვეთის დასრულება</button>
+    </form>
+  {% endif %}
+{% endblock %}

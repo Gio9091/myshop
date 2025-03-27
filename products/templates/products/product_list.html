@@ -1,0 +1,35 @@
+<h2>პროდუქტები</h2>
+
+<!-- კატეგორიების ჩამონათვალი -->
+<ul>
+    <li><a href="{% url 'product_list' %}">ყველა</a></li>
+    {% for category in categories %}
+        <li>
+            <a href="{% url 'product_list' %}?category={{ category.slug }}"
+               {% if selected_category == category.slug %}style="font-weight: bold;"{% endif %}>
+                {{ category.name }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<!-- პროდუქციის სია -->
+<ul>
+    {% for product in products %}
+        <li>
+            <strong>{{ product.name }}</strong> - {{ product.price }}₾ <br>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" width="150">
+            {% else %}
+                <p>სურათი არ არის</p>
+            {% endif %}
+            <br>
+            <form action="{% url 'cart:add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">ყიდვა</button>
+            </form>
+        </li>
+    {% empty %}
+        <p>პროდუქტები არ მოიძებნა.</p>
+    {% endfor %}
+</ul>

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{{ category.name }}</h1>
+    <ul>
+        {% for sub in subcategories %}
+            <li><a href="{% url 'category_detail' sub.slug %}">{{ sub.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>პროდუქტები:</h2>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} - {{ product.price }} ₾</li>
+        {% empty %}
+            <p>პროდუქტები არ არის.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

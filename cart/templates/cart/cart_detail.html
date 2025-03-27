@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="text-align: center; color: #4CAF50; font-size: 30px; font-weight: bold;"
+    xmlns:color="http://www.w3.org/1999/xhtml">თქვენი კალათა</h2>
+
+{% if items %}
+    <div style="overflow-x:auto; margin-top: 20px;">
+        <table border="0" style="width:100%; border-radius: 10px; border-collapse: collapse; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <tr style="background: #f4f4f4; text-transform: uppercase; color: #333;">
+                <th style="padding: 15px; font-size: 16px;">სურათი</th>
+                <th style="padding: 15px; font-size: 16px;">პროდუქტი</th>
+                <th style="padding: 15px; font-size: 16px;">რაოდენობა</th>
+                <th style="padding: 15px; font-size: 16px;">ფასი</th>
+                <th style="padding: 15px; font-size: 16px;">ჯამი</th>
+                <th style="padding: 15px; font-size: 16px;">ქმედება</th>
+            </tr>
+            {% for item in items %}
+                <tr style="background: #fff; border-bottom: 1px solid #f1f1f1;">
+                    <td style="padding: 10px; text-align: center;">
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="100" style="border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        {% else %}
+                            <p>სურათი არ არის</p>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 10px; font-size: 14px; font-weight: bold;">{{ item.product.name }}</td>
+                    <td style="padding: 10px; font-size: 14px;">{{ item.quantity }}</td>
+                    <td style="padding: 10px; font-size: 14px; color: #4CAF50;">{{ item.product.price|floatformat:2 }}₾</td>
+                    <td style="padding: 10px; font-size: 14px; color: #4CAF50;">{{ item.product.price|floatformat:2 }}₾</td>
+                    <td style="padding: 10px; font-size: 14px;">
+                        <a href="{% url 'cart:remove_from_cart' item.product.id %}" style="color: #E74C3C; text-decoration: none; font-weight: bold; padding: 5px 10px; border: 2px solid #E74C3C; border-radius: 5px; transition: background-color 0.3s;">
+                            -1
+                        </a> |
+                        <a href="{% url 'cart:remove_from_cart' item.product.id %}?remove_all=true" style="color: #E74C3C; text-decoration: none; font-weight: bold; padding: 5px 10px; border: 2px solid #E74C3C; border-radius: 5px; transition: background-color 0.3s;">
+                            წაშლა
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <h3 style="text-align: center; margin-top: 20px; font-weight: bold; font-size: 18px; color: #4CAF50;">ჯამური თანხა: {{ total|floatformat:2 }}₾</h3>
+<div style="text-align: center; margin-top: 20px;">
+     <a href="{% url 'orders:checkout' %}" style="background: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; font-size: 18px; border-radius: 5px;">
+        შეძენა
+    </a>
+</div>
+{% else %}
+    <p style="text-align: center; font-size: 18px; font-weight: bold; color: #E74C3C;">თქვენი კალათა ცარიელია.</p>
+{% endif %}
+
+{% endblock %}

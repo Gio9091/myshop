@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>თქვენი შეკვეთების ისტორია</h2>
+{% for order in orders %}
+    <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+        <h3>შეკვეთა #{{ order.id }} - სტატუსი: {{ order.status }}</h3>
+        <p><strong>თარიღი:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</p>
+        <p><strong>ჯამური ფასი:</strong> ${{ order.total_price }}</p>
+
+        <h4>პროდუქტები:</h4>
+        <ul>
+            {% for item in order.items.all %}
+                <li>
+                    {{ item.product.name }} - რაოდენობა: {{ item.quantity }} - ფასი: ${{ item.price }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% empty %}
+    <p>თქვენ ჯერ არ გაქვთ შეკვეთები.</p>
+{% endfor %}
+{% endblock %}

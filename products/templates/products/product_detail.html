@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ product.name }}</h2>
+
+    <!-- პროდუქტის სურათი -->
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="300">
+    {% else %}
+        <p>სურათი არ არის</p>
+    {% endif %}
+
+    <!-- პროდუქტის ფასი -->
+    <p><strong>ფასი:</strong> {{ product.price }}₾</p>
+
+    <!-- პროდუქტის აღწერა -->
+    <p><strong>აღწერა:</strong> {{ product.description }}</p>
+
+    <!-- პროდუქტის კატეგორია -->
+    <p><strong>კატეგორია:</strong> {{ product.category.name }}</p>
+
+    <!-- კალათაში დამატება -->
+     <a href="{% url 'cart:add_to_cart' product.id %}" class="buy-button">🛒 ყიდვა</a>
+
+{% endblock %}

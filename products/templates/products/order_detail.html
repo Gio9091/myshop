@@ -1,0 +1,10 @@
+<h1>შეკვეთის დეტალები</h1>
+<p>შეკვეთა #{{ order.id }}</p>
+<p>შექმნის დრო: {{ order.created_at }}</p>
+<h2>პროდუქტები:</h2>
+<ul>
+    {% for item in order.items.all %}
+        <li>{{ item.product.name }} - რაოდენობა: {{ item.quantity }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'home' %}">მთავარ გვერდზე დაბრუნება</a>
